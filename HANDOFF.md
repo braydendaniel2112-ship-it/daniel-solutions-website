@@ -4,7 +4,7 @@ Single-page portfolio and services website for **Daniel Solutions**, a Calgary-b
 
 **Owner:** Brayden
 **File:** `daniel-solutions-website/index.html`
-**Status:** Feature-complete. Contact form needs a real backend before go-live.
+**Status:** Feature-complete. Contact form live via Formspree.
 
 ---
 
@@ -19,7 +19,7 @@ Single-page portfolio and services website for **Daniel Solutions**, a Calgary-b
 | 5 | Portfolio | `#F8F7F4` warm off-white | 2×2 grid, 2 real + 2 placeholder cards |
 | 6 | Testimonials | `#FFFFFF` white | 2 placeholder cards (styled intentionally) |
 | 7 | About | `#F8F7F4` warm off-white | 2-col layout, founder bio, 3 stat blocks |
-| 8 | Contact | `#1E2A3A` dark | 5-field form, visual-only submission |
+| 8 | Contact | `#1E2A3A` dark | 5-field form, Formspree integration live |
 | 9 | Footer | `#1E2A3A` dark | Continues from contact section |
 
 ---
@@ -134,11 +134,11 @@ CTAs:     0.88s
 - Closes on any menu link click
 
 ### Contact Form
-```js
-function handleSubmit(e) { ... }
-// Visual-only: shows "Message Sent ✓" for 4s, then resets
-// NO backend integration — needs email service before go-live
-```
+- **Formspree endpoint:** `https://formspree.io/f/xwvwodwk`
+- Form tag: `action="https://formspree.io/f/xwvwodwk" method="POST"` — submissions send real emails
+- Fields: `name`, `business`, `email`, `service` (dropdown), `message` — all have `name` attributes
+- On submit, Formspree handles delivery and redirects to its default thank-you page
+- `handleSubmit()` JS function (visual success animation — "Message Sent ✓" for 4s) exists in the file but is **not wired to the form**; the form submits natively. Wire it up later if a custom success state is wanted.
 
 ### Smooth Scroll
 - All `a[href^="#"]` links use `scrollIntoView({ behavior: 'smooth' })`
@@ -171,7 +171,7 @@ function handleSubmit(e) { ... }
 ## Known Limitations / TODO
 
 ### Must-do before go-live
-- [ ] **Contact form backend** — wire up to Formspree, Resend, or a Vercel serverless function so messages actually arrive
+- [x] **Contact form backend** — Formspree integrated at `https://formspree.io/f/xwvwodwk` ✓
 - [ ] **Meta tags** — add `<meta name="description">`, Open Graph tags (`og:title`, `og:image`, `og:description`) for link previews
 
 ### Nice-to-have
