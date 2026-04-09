@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Daniel Solutions | AI & Automation Insights for Calgary Businesses</title>
+  <meta name="description" content="Practical guides, case studies, and automation tips for Calgary small businesses. Learn how to save time, cut costs, and grow with AI.">
+  <meta name="author" content="Daniel Solutions">
+  <link rel="canonical" href="https://danielsolutions.ca/blog/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Blog — Daniel Solutions">
+  <meta property="og:description" content="Practical guides, case studies, and automation tips for Calgary small businesses.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://danielsolutions.ca/blog/">
+  <meta property="og:image" content="https://danielsolutions.ca/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       DESIGN TOKENS
+    ============================================================ */
+    :root {
+      --bg-page:       #F8F7F4;
+      --bg-surface:    #FFFFFF;
+      --bg-dark:       #1E2A3A;
+      --text-primary:  #1E2A3A;
+      --text-muted:    #6B7A8D;
+      --accent:        #2563EB;
+      --accent-hover:  #1D4ED8;
+      --accent-light:  #EFF6FF;
+      --border:        #E8E8E4;
+      --font-display:  'Plus Jakarta Sans', sans-serif;
+      --font-body:     'Inter', sans-serif;
+      --font-mono:     'JetBrains Mono', monospace;
+      --radius-card:   16px;
+      --radius-pill:   999px;
+      --ease-spring:   cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: var(--text-primary);
+      background: var(--bg-page);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* ============================================================
+       UTILITY
+    ============================================================ */
+    .container {
+      width: 100%;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .section-heading {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+    }
+
+    .logo-ai {
+      color: var(--accent);
+      animation: aiPulse 2s ease-in-out infinite;
+      display: inline;
+    }
+
+    @keyframes aiPulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.7; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    .nav-wrapper {
+      position: fixed;
+      top: 20px;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      padding: 0 24px;
+      pointer-events: none;
+    }
+
+    nav {
+      pointer-events: all;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      padding: 12px 24px;
+      border-radius: var(--radius-pill);
+      background: rgba(30, 42, 58, 0.95);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.24);
+      transition: background 0.4s ease, backdrop-filter 0.4s ease,
+                  border-color 0.4s ease, box-shadow 0.4s ease;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 17px;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.75);
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .nav-links a.active {
+      color: #ffffff;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .btn-nav {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+      background: var(--accent);
+      border: none;
+      padding: 9px 20px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      transition: background-color 0.3s var(--ease-spring), transform 0.15s var(--ease-spring), box-shadow 0.3s var(--ease-spring);
+      white-space: nowrap;
+    }
+
+    .btn-nav:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.08);
+      border: none;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: #ffffff;
+      border-radius: 2px;
+      transition: transform 0.3s var(--ease-spring), opacity 0.3s var(--ease-spring);
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(30, 42, 58, 0.98);
+      backdrop-filter: blur(20px);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu a {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.8);
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:hover { color: #ffffff; }
+
+    .mobile-menu .btn-nav {
+      font-size: 16px;
+      padding: 14px 40px;
+      margin-top: 8px;
+    }
+
+    /* ============================================================
+       BLOG LISTING HERO
+    ============================================================ */
+    .blog-listing-hero {
+      background: var(--bg-dark);
+      padding: 140px 24px 72px;
+      text-align: center;
+    }
+
+    .blog-listing-hero h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(32px, 5vw, 52px);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+
+    .blog-listing-hero p {
+      font-family: var(--font-body);
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       INSIGHTS GRID (matches homepage)
+    ============================================================ */
+    .blog-listing {
+      background: var(--bg-page);
+      padding: 72px 0 96px;
+    }
+
+    .insights-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .insight-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 36px 32px;
+      position: relative;
+      transition: transform 0.3s var(--ease-spring), box-shadow 0.3s var(--ease-spring);
+    }
+
+    .insight-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 2px 8px rgba(30, 42, 58, 0.06), 0 16px 40px rgba(37, 99, 235, 0.10);
+    }
+
+    a.insight-card-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .insight-category {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .insight-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .insight-excerpt {
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .insight-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      background: var(--bg-page);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+    }
+
+    .insight-badge.active {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: var(--bg-dark);
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 48px 0 32px;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 18px;
+      color: #ffffff;
+    }
+
+    .footer-tagline {
+      font-family: var(--font-body);
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.4);
+      max-width: 240px;
+      line-height: 1.5;
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      padding-top: 4px;
+    }
+
+    .footer-nav a {
+      font-family: var(--font-body);
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.5);
+      transition: color 0.2s;
+    }
+
+    .footer-nav a:hover { color: rgba(255,255,255,0.9); }
+
+    .footer-copy {
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.3);
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 28px;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 768px) {
+      .nav-links, .btn-nav { display: none; }
+      .hamburger { display: flex; }
+
+      .blog-listing-hero { padding: 120px 24px 56px; }
+      .insights-grid { grid-template-columns: 1fr; }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 32px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .insight-card { padding: 28px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <div class="nav-wrapper">
+    <nav>
+      <a href="/" class="nav-logo">
+        D<span class="logo-ai">a</span>n<span class="logo-ai">i</span>el Solutions
+      </a>
+      <ul class="nav-links">
+        <li><a href="/#services">Services</a></li>
+        <li><a href="/#pricing">Pricing</a></li>
+        <li><a href="/#process">How It Works</a></li>
+        <li><a href="/blog/" class="active">Blog</a></li>
+      </ul>
+      <a href="/#contact" class="btn-nav">Book a Call</a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="/#services" class="mobile-link">Services</a>
+    <a href="/#pricing" class="mobile-link">Pricing</a>
+    <a href="/#process" class="mobile-link">How It Works</a>
+    <a href="/blog/" class="mobile-link">Blog</a>
+    <a href="/#contact" class="btn-nav mobile-link">Book a Call</a>
+  </div>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section class="blog-listing-hero">
+    <span class="eyebrow">Insights</span>
+    <h1>Practical guides for Calgary business owners.</h1>
+    <p>Tips, case studies, and strategies to help you save time, cut costs, and grow with AI and automation.</p>
+  </section>
+
+  <!-- ============================================================
+       BLOG GRID
+  ============================================================ -->
+  <section class="blog-listing">
+    <div class="container">
+      <div class="insights-grid">
+
+        <a href="/blog/5-tasks-every-small-business-should-automate-first/" class="insight-card-link">
+          <div class="insight-card reveal">
+            <span class="insight-category">AI &middot; Automation</span>
+            <div class="insight-title">5 Tasks Every Small Business Should Automate First</div>
+            <p class="insight-excerpt">The boring stuff is costing you hours every week. Here's where to start — no coding required.</p>
+            <span class="insight-badge active">Read Article &rarr;</span>
+          </div>
+        </a>
+
+        <div class="insight-card reveal" style="--i:1">
+          <span class="insight-category">Web Design</span>
+          <div class="insight-title">Why Your Website Isn't Getting You Clients (And How to Fix It)</div>
+          <p class="insight-excerpt">Most business websites are digital brochures that no one reads. Here's what actually converts visitors into calls.</p>
+          <span class="insight-badge">Coming Soon</span>
+        </div>
+
+        <div class="insight-card reveal" style="--i:2">
+          <span class="insight-category">Case Study</span>
+          <div class="insight-title">How a Calgary Restaurant Saved 6 Hours a Week</div>
+          <p class="insight-excerpt">A real look at what happened when we automated booking confirmations for a local restaurant.</p>
+          <span class="insight-badge">Coming Soon</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="footer-logo">D<span class="logo-ai">a</span>n<span class="logo-ai">i</span>el Solutions</div>
+          <p class="footer-tagline">Building smarter businesses, one project at a time.</p>
+        </div>
+        <nav class="footer-nav">
+          <a href="/#services">Services</a>
+          <a href="/#pricing">Pricing</a>
+          <a href="/#process">How It Works</a>
+          <a href="/blog/">Blog</a>
+          <a href="/#about">About</a>
+          <a href="/#contact">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-copy">
+        &copy; 2026 Daniel Solutions. All rights reserved. &middot; Calgary, Alberta
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    /* Hamburger / Mobile Menu */
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    /* Scroll Reveal */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        } else {
+          entry.target.classList.remove('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => {
+      revealObserver.observe(el);
+    });
+  </script>
+</body>
+</html>

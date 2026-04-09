@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://danielsolutions.ca/sitemap.xml
