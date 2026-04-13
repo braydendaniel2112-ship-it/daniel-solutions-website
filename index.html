@@ -899,6 +899,170 @@
       box-shadow: 0 2px 8px rgba(30, 42, 58, 0.06), 0 16px 40px rgba(37, 99, 235, 0.08);
     }
 
+    .card-video {
+      background: var(--bg-dark);
+      cursor: pointer;
+      min-height: 320px;
+    }
+
+    .card-video:hover {
+      box-shadow: 0 16px 48px rgba(37, 99, 235, 0.22);
+    }
+
+    .portfolio-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .portfolio-video-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,14,22,0.94) 0%, rgba(10,14,22,0.72) 38%, rgba(10,14,22,0.25) 75%, rgba(10,14,22,0.05) 100%);
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .card-video:hover .portfolio-video-scrim { opacity: 1; }
+
+    .card-video .portfolio-tag,
+    .card-video .portfolio-title,
+    .card-video .portfolio-desc,
+    .card-video .portfolio-badge {
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.35s cubic-bezier(0.23, 1, 0.32, 1), transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .card-video:hover .portfolio-tag,
+    .card-video:hover .portfolio-title,
+    .card-video:hover .portfolio-desc,
+    .card-video:hover .portfolio-badge {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card-video .portfolio-desc { transition-delay: 0.04s; }
+    .card-video .portfolio-badge { transition-delay: 0.08s; }
+
+    .card-video-label {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 3;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #ffffff;
+      background: rgba(10, 14, 22, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      pointer-events: none;
+      transition: opacity 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .card-video-label::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(37, 99, 235, 0.7);
+    }
+    .card-video:hover .card-video-label { opacity: 0; }
+
+    /* Video lightbox modal */
+    .video-modal {
+      border: none;
+      padding: 0;
+      background: transparent;
+      max-width: min(1100px, 92vw);
+      width: 92vw;
+      max-height: 88vh;
+      overflow: visible;
+      margin: auto;
+      inset: 0;
+    }
+    .video-modal::backdrop {
+      background: rgba(10, 14, 22, 0.82);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .video-modal[open] {
+      animation: modalFadeIn 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .video-modal-inner {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 40px 120px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+    .video-modal-inner video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      background: #000;
+    }
+    .video-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      background: rgba(10, 14, 22, 0.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #ffffff;
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background 0.2s ease, border-color 0.2s ease;
+      z-index: 2;
+    }
+    .video-modal-close:hover {
+      transform: scale(1.08) rotate(90deg);
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+    }
+    .video-modal-close:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+    body.modal-open { overflow: hidden; }
+    @media (max-width: 640px) {
+      .video-modal-close { top: 12px; right: 12px; width: 40px; height: 40px; font-size: 22px; }
+    }
+
     .portfolio-tag {
       font-family: var(--font-mono);
       font-size: 10px;
@@ -1678,16 +1842,28 @@
           <div class="portfolio-overlay"><span>Learn More →</span></div>
         </div>
 
-        <!-- Card 4 — Placeholder -->
-        <div class="portfolio-card card-ghost reveal" style="--i:3">
-          <span class="portfolio-tag" style="color:var(--border)">Coming Soon</span>
-          <div class="portfolio-title" style="color:var(--border)">Your Project Here</div>
-          <p class="portfolio-desc" style="color:var(--border)">This spot is reserved for our next client project.</p>
+        <!-- Card 4 — Fade & Co. AI Chatbot -->
+        <div class="portfolio-card card-video reveal" style="--i:3" role="button" tabindex="0" data-video-modal-trigger aria-label="View Cody — Fade & Co. AI Chatbot demo">
+          <video class="portfolio-video" src="assets/video/cody-demo.mp4" poster="assets/video/cody-demo-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <div class="portfolio-video-scrim"></div>
+          <span class="card-video-label">AI Chatbot</span>
+          <span class="portfolio-tag">Barbershop · AI Chatbot</span>
+          <div class="portfolio-title">Cody — Fade &amp; Co.</div>
+          <p class="portfolio-desc">A conversational AI assistant built for a Calgary barbershop. Customers ask about hours, pricing, and bookings — Cody answers instantly and scrolls them to the right section of the site.</p>
+          <span class="portfolio-badge">Click to Expand</span>
         </div>
 
       </div>
     </div>
   </section>
+
+  <!-- Video lightbox modal -->
+  <dialog id="videoModal" class="video-modal" aria-label="Video preview">
+    <div class="video-modal-inner">
+      <button type="button" class="video-modal-close" aria-label="Close video">×</button>
+      <video muted loop playsinline preload="metadata"></video>
+    </div>
+  </dialog>
 
   <!-- ============================================================
        TESTIMONIALS
@@ -2010,6 +2186,53 @@
         }
       });
     });
+
+    /* ----------------------------------------------------------
+       VIDEO LIGHTBOX MODAL
+    ---------------------------------------------------------- */
+    (function () {
+      const modal = document.getElementById('videoModal');
+      if (!modal) return;
+      const modalVideo = modal.querySelector('video');
+      const closeBtn = modal.querySelector('.video-modal-close');
+      const triggers = document.querySelectorAll('[data-video-modal-trigger]');
+
+      function openModal(trigger) {
+        const sourceVideo = trigger.querySelector('video');
+        if (sourceVideo && sourceVideo.currentSrc) {
+          modalVideo.src = sourceVideo.currentSrc;
+        }
+        document.body.classList.add('modal-open');
+        modal.showModal();
+        modalVideo.currentTime = 0;
+        const playPromise = modalVideo.play();
+        if (playPromise && typeof playPromise.catch === 'function') playPromise.catch(() => {});
+      }
+
+      function closeModal() {
+        modalVideo.pause();
+        modalVideo.removeAttribute('src');
+        modalVideo.load();
+        document.body.classList.remove('modal-open');
+        if (modal.open) modal.close();
+      }
+
+      triggers.forEach(trigger => {
+        trigger.addEventListener('click', () => openModal(trigger));
+        trigger.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openModal(trigger);
+          }
+        });
+      });
+
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('cancel', (e) => { e.preventDefault(); closeModal(); });
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+    })();
   </script>
 </body>
 </html>
