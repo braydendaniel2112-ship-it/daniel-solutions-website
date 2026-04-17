@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Summit Roofing — Lead Pipeline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Design Tokens ── */
+    :root {
+      --bg-page:       #F8F7F4;
+      --bg-surface:    #FFFFFF;
+      --bg-dark:       #1B2E1F;
+      --text-primary:  #1B2E1F;
+      --text-muted:    #6B7A6E;
+      --accent:        #E8642C;
+      --accent-hover:  #D4551F;
+      --accent-light:  #FFF4EF;
+      --green:         #22A559;
+      --green-light:   #EDFAF2;
+      --yellow:        #E5A30B;
+      --yellow-light:  #FFF9E6;
+      --red:           #DC3545;
+      --red-light:     #FFF0F1;
+      --blue:          #2563EB;
+      --blue-light:    #EFF6FF;
+      --border:        #E4E8E5;
+      --font-display:  'Plus Jakarta Sans', sans-serif;
+      --font-body:     'Inter', sans-serif;
+      --font-mono:     'JetBrains Mono', monospace;
+      --radius:        12px;
+      --radius-sm:     8px;
+      --shadow:        0 1px 3px rgba(27,46,31,0.06), 0 1px 2px rgba(27,46,31,0.04);
+      --shadow-lg:     0 4px 12px rgba(27,46,31,0.08), 0 1px 3px rgba(27,46,31,0.06);
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--text-primary);
+      background: var(--bg-page);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .dashboard {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 20px 64px;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      background: var(--bg-dark);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-mark svg { width: 22px; height: 22px; }
+    .header-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 22px;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+    .header-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+    .live-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+    .header-date {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ── Stats Row ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      box-shadow: var(--shadow);
+    }
+    .stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+    .stat-value {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 28px;
+      line-height: 1;
+      color: var(--text-primary);
+    }
+    .stat-value.accent { color: var(--accent); }
+    .stat-change {
+      font-size: 12px;
+      color: var(--green);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* ── Section Headers ── */
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title .count {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      background: var(--accent-light);
+      color: var(--accent);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    /* ── Lead Cards ── */
+    .leads-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+    .lead-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .lead-card:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: #D0D6D1;
+    }
+    .lead-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .lead-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .lead-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .lead-name {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text-primary);
+    }
+    .lead-phone {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+    .lead-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .lead-time {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .status-pill {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.02em;
+    }
+    .status-new { background: var(--blue-light); color: var(--blue); }
+    .status-responded { background: var(--green-light); color: var(--green); }
+    .status-quote { background: var(--yellow-light); color: var(--yellow); }
+    .status-won { background: var(--green-light); color: var(--green); }
+    .status-lost { background: var(--red-light); color: var(--red); }
+
+    /* Message thread */
+    .lead-thread {
+      margin-top: 4px;
+      padding-left: 50px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .msg {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    .msg-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .msg-icon.outbound { background: var(--accent-light); }
+    .msg-icon.inbound { background: var(--blue-light); }
+    .msg-icon svg { width: 11px; height: 11px; }
+    .msg-text {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      flex: 1;
+    }
+    .msg-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.7;
+      margin-bottom: 2px;
+    }
+
+    /* ── Follow-Up Queue ── */
+    .followup-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .followup-item {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: var(--shadow);
+      flex-wrap: wrap;
+    }
+    .followup-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .followup-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .followup-dot.soon { background: var(--accent); }
+    .followup-dot.later { background: var(--yellow); }
+    .followup-dot.scheduled { background: var(--blue); }
+    .followup-name {
+      font-weight: 500;
+      font-size: 14px;
+    }
+    .followup-action {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .followup-time {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .footer-text {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .footer-brand {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .stat-value { font-size: 24px; }
+      .header { flex-direction: column; align-items: flex-start; }
+      .lead-thread { padding-left: 0; }
+      .lead-top { flex-direction: column; align-items: flex-start; }
+      .followup-item { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#E8642C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 21L12 3L21 21H3Z"/>
+            <line x1="12" y1="10" x2="12" y2="14"/>
+          </svg>
+        </div>
+        <div>
+          <div class="header-title">Summit Roofing Co.</div>
+          <div class="header-sub">Lead Pipeline — Missed Call Recovery</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="live-dot"></span>
+        <span class="live-label">Live</span>
+        <span class="header-date">&nbsp;&bull;&nbsp; Wed, Apr 16 2026</span>
+      </div>
+    </header>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">New Leads</div>
+        <div class="stat-value">12</div>
+        <div class="stat-change">+4 from last week</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Responded</div>
+        <div class="stat-value">8</div>
+        <div class="stat-change">67% response rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Quotes Sent</div>
+        <div class="stat-value">4</div>
+        <div class="stat-change">50% quote rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Pipeline Value</div>
+        <div class="stat-value accent">$14.2K</div>
+        <div class="stat-change">+$3.8K this week</div>
+      </div>
+    </div>
+
+    <!-- Recent Leads -->
+    <div class="section-title">Recent Leads <span class="count">6</span></div>
+    <div class="leads-list">
+
+      <!-- Lead 1 — New -->
+      <div class="lead-card">
+        <div class="lead-top">
+          <div class="lead-info">
+            <div class="lead-avatar" style="background:#2563EB;">SJ</div>
+            <div>
+              <div class="lead-name">Sarah Johnson</div>
+              <div class="lead-phone">(403) 555-&#8199;&#8199;&#8199;12</div>
+            </div>
+          </div>
+          <div class="lead-meta">
+            <span class="lead-time">3 min ago</span>
+            <span class="status-pill status-new">New Lead</span>
+          </div>
+        </div>
+        <div class="lead-thread">
+          <div class="msg">
+            <div class="msg-icon outbound">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#E8642C" stroke-width="1.5"><polyline points="2 6 6 2 10 6"/><line x1="6" y1="2" x2="6" y2="10"/></svg>
+            </div>
+            <div>
+              <div class="msg-label">Auto Text-Back &bull; Sent instantly</div>
+              <div class="msg-text">"Hey, this is Mike from Summit Roofing. I'm on a job right now but got your call — how can I help?"</div>
+            </div>
+          </div>
+          <div class="msg">
+            <div class="msg-icon inbound">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#2563EB" stroke-width="1.5"><polyline points="2 6 6 10 10 6"/><line x1="6" y1="10" x2="6" y2="2"/></svg>
+            </div>
+            <div>
+              <div class="msg-label">Customer Reply &bull; 1 min later</div>
+              <div class="msg-text">"Hi! I need a quote for replacing shingles on my garage. Probably 400 sq ft."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lead 2 — Responded -->
+      <div class="lead-card">
+        <div class="lead-top">
+          <div class="lead-info">
+            <div class="lead-avatar" style="background:#22A559;">DP</div>
+            <div>
+              <div class="lead-name">David Park</div>
+              <div class="lead-phone">(587) 555-&#8199;&#8199;&#8199;87</div>
+            </div>
+          </div>
+          <div class="lead-meta">
+            <span class="lead-time">28 min ago</span>
+            <span class="status-pill status-responded">Responded</span>
+          </div>
+        </div>
+        <div class="lead-thread">
+          <div class="msg">
+            <div class="msg-icon outbound">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#E8642C" stroke-width="1.5"><polyline points="2 6 6 2 10 6"/><line x1="6" y1="2" x2="6" y2="10"/></svg>
+            </div>
+            <div>
+              <div class="msg-label">Auto Text-Back &bull; Sent instantly</div>
+              <div class="msg-text">"Hey, this is Mike from Summit Roofing. I'm on a job right now but got your call — how can I help?"</div>
+            </div>
+          </div>
+          <div class="msg">
+            <div class="msg-icon inbound">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#2563EB" stroke-width="1.5"><polyline points="2 6 6 10 10 6"/><line x1="6" y1="10" x2="6" y2="2"/></svg>
+            </div>
+            <div>
+              <div class="msg-label">Customer Reply &bull; 3 min later</div>
+              <div class="msg-text">"We had hail damage last week. Need someone to inspect and give us a quote for our insurance claim. Two-storey house in Kensington."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lead 3 — Quote Sent -->
+      <div class="lead-card">
+        <div class="lead-top">
+          <div class="lead-info">
+            <div class="lead-avatar" style="background:#E5A30B;">RW</div>
+            <div>
+              <div class="lead-name">Rachel Wong</div>
+              <div class="lead-phone">(403) 555-&#8199;&#8199;&#8199;45</div>
+            </div>
+          </div>
+          <div class="lead-meta">
+            <span class="lead-time">2 hrs ago</span>
+            <span class="status-pill status-quote">Quote Sent</span>
+          </div>
+        </div>
+        <div class="lead-thread">
+          <div class="msg">
+            <div class="msg-icon outbound">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#E8642C" stroke-width="1.5"><polyline points="2 6 6 2 10 6"/><line x1="6" y1="2" x2="6" y2="10"/></svg>
+            </div>
+            <div>
+              <div class="msg-label">Auto Text-Back &bull; Sent instantly</div>
+              <div class="msg-text">"Hey, this is Mike from Summit Roofing. I'm on a job right now but got your call — how can I help?"</div>
+            </div>
+          </div>
+          <div class="msg">
+            <div class="msg-icon inbound">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#2563EB" stroke-width="1.5"><polyline points="2 6 6 10 10 6"/><line x1="6" y1="10" x2="6" y2="2"/></svg>
+            </div>
+            <div>
+              <div class="msg-label">Customer Reply &bull; 5 min later</div>
+              <div class="msg-text">"Looking to get the flat roof on our commercial unit resealed. About 2,000 sq ft."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lead 4 — Won -->
+      <div class="lead-card">
+        <div class="lead-top">
+          <div class="lead-info">
+            <div class="lead-avatar" style="background:#22A559;">TM</div>
+            <div>
+              <div class="lead-name">Tyler Mitchell</div>
+              <div class="lead-phone">(403) 555-&#8199;&#8199;&#8199;63</div>
+            </div>
+          </div>
+          <div class="lead-meta">
+            <span class="lead-time">Yesterday</span>
+            <span class="status-pill status-won">Won — $4,200</span>
+          </div>
+        </div>
+        <div class="lead-thread">
+          <div class="msg">
+            <div class="msg-icon outbound">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#E8642C" stroke-width="1.5"><polyline points="2 6 6 2 10 6"/><line x1="6" y1="2" x2="6" y2="10"/></svg>
+            </div>
+            <div>
+              <div class="msg-label">Auto Text-Back &bull; Sent instantly</div>
+              <div class="msg-text">"Hey, this is Mike from Summit Roofing. I'm on a job right now but got your call — how can I help?"</div>
+            </div>
+          </div>
+          <div class="msg">
+            <div class="msg-icon inbound">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#2563EB" stroke-width="1.5"><polyline points="2 6 6 10 10 6"/><line x1="6" y1="10" x2="6" y2="2"/></svg>
+            </div>
+            <div>
+              <div class="msg-label">Customer Reply &bull; 8 min later</div>
+              <div class="msg-text">"Eavestroughs are pulling away from the fascia. Need repair on about 60 ft. When can you come take a look?"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lead 5 — New -->
+      <div class="lead-card">
+        <div class="lead-top">
+          <div class="lead-info">
+            <div class="lead-avatar" style="background:#DC3545;">KL</div>
+            <div>
+              <div class="lead-name">Karen Liu</div>
+              <div class="lead-phone">(587) 555-&#8199;&#8199;&#8199;29</div>
+            </div>
+          </div>
+          <div class="lead-meta">
+            <span class="lead-time">4 hrs ago</span>
+            <span class="status-pill status-new">New Lead</span>
+          </div>
+        </div>
+        <div class="lead-thread">
+          <div class="msg">
+            <div class="msg-icon outbound">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#E8642C" stroke-width="1.5"><polyline points="2 6 6 2 10 6"/><line x1="6" y1="2" x2="6" y2="10"/></svg>
+            </div>
+            <div>
+              <div class="msg-label">Auto Text-Back &bull; Sent instantly</div>
+              <div class="msg-text">"Hey, this is Mike from Summit Roofing. I'm on a job right now but got your call — how can I help?"</div>
+            </div>
+          </div>
+          <div class="msg">
+            <div class="msg-icon inbound">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#2563EB" stroke-width="1.5"><polyline points="2 6 6 10 10 6"/><line x1="6" y1="10" x2="6" y2="2"/></svg>
+            </div>
+            <div>
+              <div class="msg-label">Customer Reply &bull; 12 min later</div>
+              <div class="msg-text">"We need a full roof replacement. House is about 1,800 sq ft. Asphalt shingles. What's your availability like?"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lead 6 — Lost -->
+      <div class="lead-card" style="opacity: 0.6;">
+        <div class="lead-top">
+          <div class="lead-info">
+            <div class="lead-avatar" style="background:#6B7A6E;">BN</div>
+            <div>
+              <div class="lead-name">Brian Newell</div>
+              <div class="lead-phone">(403) 555-&#8199;&#8199;&#8199;78</div>
+            </div>
+          </div>
+          <div class="lead-meta">
+            <span class="lead-time">2 days ago</span>
+            <span class="status-pill status-lost">Lost</span>
+          </div>
+        </div>
+        <div class="lead-thread">
+          <div class="msg">
+            <div class="msg-icon outbound">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#E8642C" stroke-width="1.5"><polyline points="2 6 6 2 10 6"/><line x1="6" y1="2" x2="6" y2="10"/></svg>
+            </div>
+            <div>
+              <div class="msg-label">Auto Text-Back &bull; Sent instantly</div>
+              <div class="msg-text">"Hey, this is Mike from Summit Roofing. I'm on a job right now but got your call — how can I help?"</div>
+            </div>
+          </div>
+          <div class="msg">
+            <div class="msg-icon inbound">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#2563EB" stroke-width="1.5"><polyline points="2 6 6 10 10 6"/><line x1="6" y1="10" x2="6" y2="2"/></svg>
+            </div>
+            <div>
+              <div class="msg-label">Customer Reply &bull; 2 min later</div>
+              <div class="msg-text">"Just checking on pricing for a small patch job. Already got another quote though."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Follow-Up Queue -->
+    <div class="section-title">Follow-Up Queue <span class="count">4</span></div>
+    <div class="followup-list">
+      <div class="followup-item">
+        <div class="followup-left">
+          <span class="followup-dot soon"></span>
+          <span class="followup-name">Sarah Johnson</span>
+          <span class="followup-action">— Send quote follow-up</span>
+        </div>
+        <span class="followup-time">In 45 min</span>
+      </div>
+      <div class="followup-item">
+        <div class="followup-left">
+          <span class="followup-dot later"></span>
+          <span class="followup-name">Karen Liu</span>
+          <span class="followup-action">— Schedule inspection call</span>
+        </div>
+        <span class="followup-time">In 3 hrs</span>
+      </div>
+      <div class="followup-item">
+        <div class="followup-left">
+          <span class="followup-dot scheduled"></span>
+          <span class="followup-name">Rachel Wong</span>
+          <span class="followup-action">— Quote follow-up #2</span>
+        </div>
+        <span class="followup-time">Tomorrow 9:00 AM</span>
+      </div>
+      <div class="followup-item">
+        <div class="followup-left">
+          <span class="followup-dot scheduled"></span>
+          <span class="followup-name">David Park</span>
+          <span class="followup-action">— Insurance estimate reminder</span>
+        </div>
+        <span class="followup-time">Tomorrow 2:00 PM</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span class="footer-text">Auto-updating &bull; Last sync 12 seconds ago</span>
+      <span class="footer-brand">Powered by Daniel Solutions</span>
+    </footer>
+
+  </div>
+</body>
+</html>

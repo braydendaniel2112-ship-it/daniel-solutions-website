@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMS Mockup — Summit Roofing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #1a1a2e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    /* ── Phone Frame ── */
+    .phone {
+      width: 375px;
+      height: 812px;
+      background: #000;
+      border-radius: 50px;
+      padding: 12px;
+      position: relative;
+      box-shadow:
+        0 0 0 2px #333,
+        0 20px 60px rgba(0,0,0,0.5);
+    }
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      border-radius: 40px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Dynamic Island ── */
+    .dynamic-island {
+      width: 126px;
+      height: 36px;
+      background: #000;
+      border-radius: 20px;
+      margin: 10px auto 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* ── Status Bar ── */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 28px 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: #000;
+    }
+    .status-bar-time { font-size: 15px; font-weight: 600; }
+    .status-bar-icons {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    .status-bar-icons svg { width: 16px; height: 16px; }
+
+    /* ── Missed Call Banner ── */
+    .missed-call-banner {
+      margin: 16px 16px 0;
+      background: #FFF0F0;
+      border: 1px solid #FFD4D4;
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      animation: fadeSlideIn 0.5s ease forwards;
+      animation-delay: 0.8s;
+    }
+    .missed-call-icon {
+      width: 40px;
+      height: 40px;
+      background: #FF3B30;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .missed-call-icon svg { width: 20px; height: 20px; }
+    .missed-call-text {
+      flex: 1;
+    }
+    .missed-call-title {
+      font-weight: 600;
+      font-size: 14px;
+      color: #1a1a1a;
+    }
+    .missed-call-sub {
+      font-size: 12px;
+      color: #888;
+      margin-top: 1px;
+    }
+    .missed-call-time {
+      font-size: 12px;
+      color: #999;
+      flex-shrink: 0;
+    }
+
+    /* ── Messages Header ── */
+    .messages-header {
+      padding: 20px 16px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .back-arrow {
+      color: #007AFF;
+      font-size: 20px;
+      font-weight: 300;
+    }
+    .contact-avatar {
+      width: 36px;
+      height: 36px;
+      background: #1B2E1F;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #E8642C;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .contact-info {
+      flex: 1;
+    }
+    .contact-name {
+      font-weight: 600;
+      font-size: 15px;
+      color: #1a1a1a;
+    }
+    .contact-detail {
+      font-size: 11px;
+      color: #999;
+    }
+
+    /* ── Messages Area ── */
+    .messages {
+      flex: 1;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow-y: auto;
+    }
+
+    .message-time-stamp {
+      text-align: center;
+      font-size: 11px;
+      color: #999;
+      margin: 8px 0;
+      opacity: 0;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .bubble-row {
+      display: flex;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: fadeSlideIn 0.4s ease forwards;
+    }
+    .bubble-row.outbound { justify-content: flex-end; }
+    .bubble-row.inbound { justify-content: flex-start; }
+
+    .bubble {
+      max-width: 78%;
+      padding: 10px 14px;
+      border-radius: 18px;
+      font-size: 15px;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+    .bubble.outbound {
+      background: #34C759;
+      color: #fff;
+      border-bottom-right-radius: 6px;
+    }
+    .bubble.inbound {
+      background: #E9E9EB;
+      color: #1a1a1a;
+      border-bottom-left-radius: 6px;
+    }
+
+    .delivered {
+      text-align: right;
+      font-size: 11px;
+      color: #999;
+      padding: 4px 4px 0;
+      opacity: 0;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .auto-badge {
+      text-align: right;
+      padding: 2px 4px 0;
+      opacity: 0;
+      animation: fadeIn 0.3s ease forwards;
+    }
+    .auto-badge span {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #E8642C;
+      background: #FFF4EF;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    /* ── Input Bar ── */
+    .input-bar {
+      padding: 10px 16px 36px;
+      border-top: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .input-field {
+      flex: 1;
+      height: 36px;
+      background: #F2F2F7;
+      border: 1px solid #E5E5EA;
+      border-radius: 18px;
+      padding: 0 14px;
+      font-size: 15px;
+      color: #999;
+      display: flex;
+      align-items: center;
+    }
+    .send-btn {
+      width: 32px;
+      height: 32px;
+      background: #007AFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .send-btn svg { width: 16px; height: 16px; }
+
+    /* ── Animations ── */
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Staggered timing for the conversation */
+    .missed-call-banner { animation-delay: 0.6s; }
+    .ts-1 { animation-delay: 1.8s; }
+    .msg-1 { animation-delay: 2.2s; }
+    .badge-1 { animation-delay: 2.6s; }
+    .delivered-1 { animation-delay: 2.8s; }
+    .ts-2 { animation-delay: 4.0s; }
+    .msg-2 { animation-delay: 4.4s; }
+    .msg-3 { animation-delay: 6.0s; }
+    .badge-2 { animation-delay: 6.4s; }
+    .delivered-2 { animation-delay: 6.6s; }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <div class="phone-screen">
+
+      <!-- Dynamic Island -->
+      <div class="dynamic-island"></div>
+
+      <!-- Status Bar -->
+      <div class="status-bar">
+        <span class="status-bar-time">2:34 PM</span>
+        <div class="status-bar-icons">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M1 10h2v4H1zM5 7h2v7H5zM9 4h2v10H9zM13 1h2v13h-2z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 3a7 7 0 0 1 5.3 2.4l-1.1 1.1A5.5 5.5 0 0 0 8 4.8a5.5 5.5 0 0 0-4.2 1.7L2.7 5.4A7 7 0 0 1 8 3zm0 3.5a4 4 0 0 1 3 1.4l-1.1 1A2.5 2.5 0 0 0 8 8a2.5 2.5 0 0 0-1.9.9L5 7.9a4 4 0 0 1 3-1.4zM8 10a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+          <svg viewBox="0 0 20 10" fill="currentColor"><rect x="0" y="1" width="15" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1"/><rect x="16" y="3" width="2" height="4" rx="0.5"/><rect x="1.5" y="2.5" width="11" height="5" rx="0.5"/></svg>
+        </div>
+      </div>
+
+      <!-- Missed Call Banner -->
+      <div class="missed-call-banner">
+        <div class="missed-call-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+        </div>
+        <div class="missed-call-text">
+          <div class="missed-call-title">Missed Call</div>
+          <div class="missed-call-sub">Sarah Johnson &bull; (403) 555-0012</div>
+        </div>
+        <div class="missed-call-time">Just now</div>
+      </div>
+
+      <!-- Messages Header -->
+      <div class="messages-header">
+        <span class="back-arrow">&lsaquo;</span>
+        <div class="contact-avatar">SR</div>
+        <div class="contact-info">
+          <div class="contact-name">Sarah Johnson</div>
+          <div class="contact-detail">(403) 555-0012</div>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div class="messages">
+
+        <div class="message-time-stamp ts-1">Today 2:34 PM &bull; Auto Text-Back</div>
+
+        <!-- Auto text-back (outbound — green) -->
+        <div class="bubble-row outbound msg-1">
+          <div class="bubble outbound">Hey, this is Mike from Summit Roofing. I'm on a job right now but got your call — how can I help?</div>
+        </div>
+        <div class="auto-badge badge-1">
+          <span>Sent automatically</span>
+        </div>
+        <div class="delivered delivered-1">Delivered</div>
+
+        <div class="message-time-stamp ts-2">Today 2:35 PM</div>
+
+        <!-- Customer reply (inbound — grey) -->
+        <div class="bubble-row inbound msg-2">
+          <div class="bubble inbound">Hi! I need a quote for replacing shingles on my garage. Probably 400 sq ft.</div>
+        </div>
+
+        <!-- Auto follow-up (outbound) -->
+        <div class="bubble-row outbound msg-3">
+          <div class="bubble outbound">Got it — I'll get back to you within the hour with some options. Thanks Sarah!</div>
+        </div>
+        <div class="auto-badge badge-2">
+          <span>Sent automatically</span>
+        </div>
+        <div class="delivered delivered-2">Delivered</div>
+
+      </div>
+
+      <!-- Input Bar -->
+      <div class="input-bar">
+        <div class="input-field">iMessage</div>
+        <div class="send-btn">
+          <svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="8" y1="12" x2="8" y2="4"/><polyline points="4 7 8 3 12 7"/></svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
