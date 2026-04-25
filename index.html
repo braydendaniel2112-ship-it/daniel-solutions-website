@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daniel Solutions — AI & Web Design Calgary</title>
-  <meta name="description" content="Daniel Solutions helps Calgary small businesses save time and cut costs with AI automation, custom workflows, and modern web design.">
+  <title>Daniel Solutions — Missed-Call Recovery &amp; AI Automation for Trades</title>
+  <meta name="description" content="Daniel Solutions builds missed-call auto-text systems, automations, and websites for trades and under-tooled businesses across Calgary and the Alberta corridor — and beyond.">
   <meta name="author" content="Daniel Solutions">
-  <meta property="og:title" content="Daniel Solutions — AI & Web Design Calgary">
-  <meta property="og:description" content="AI automation and web design for Calgary small businesses.">
+  <meta property="og:title" content="Daniel Solutions — Missed-Call Recovery &amp; AI Automation for Trades">
+  <meta property="og:description" content="Stop losing jobs to voicemail. AI-powered communication systems and automations for trades and SMBs. Calgary &amp; Alberta corridor.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://daniel-solutions.vercel.app">
-  <meta property="og:image" content="https://daniel-solutions.vercel.app/og-image.png">
+  <meta property="og:url" content="https://danielsolutions.ca">
+  <meta property="og:image" content="https://danielsolutions.ca/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="google-site-verification" content="IIc8VqqJZ0BnAYzhOZkZU9Rhew_yEkECwmctCSJXVpI" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -461,38 +461,68 @@
       max-width: 540px;
     }
 
-    /* --- Capabilities grid (4 equal items, no card styling) --- */
+    /* --- Capabilities list (vertical stack, list-style, not cards) --- */
     .capabilities-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 32px;
-      margin-bottom: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin-bottom: 56px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .capability-item {
-      text-align: center;
-      padding: 24px 16px;
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      grid-template-rows: auto auto;
+      column-gap: 20px;
+      row-gap: 4px;
+      align-items: start;
+      padding: 18px 4px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-soft, rgba(0, 0, 0, 0.08));
+    }
+
+    .capability-item .capability-icon {
+      grid-row: 1 / span 2;
+      grid-column: 1;
+    }
+
+    .capability-item .capability-label {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .capability-item .capability-desc {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .capability-item:last-child {
+      border-bottom: none;
     }
 
     .capability-icon {
-      width: 52px;
-      height: 52px;
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
       background: var(--accent-light);
-      border-radius: 12px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 16px;
+      margin: 2px 0 0;
       transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
     .capability-item:hover .capability-icon {
-      transform: scale(1.1);
+      transform: scale(1.08);
     }
 
     .capability-icon svg {
-      width: 26px;
-      height: 26px;
+      width: 22px;
+      height: 22px;
       stroke: var(--accent);
       fill: none;
       stroke-width: 1.5;
@@ -504,18 +534,18 @@
       display: block;
       font-family: var(--font-display);
       font-weight: 600;
-      font-size: 17px;
+      font-size: 18px;
       color: var(--text-primary);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .capability-desc {
       font-family: var(--font-body);
-      font-size: 14px;
+      font-size: 15px;
       color: var(--text-muted);
-      line-height: 1.65;
-      max-width: 240px;
-      margin: 0 auto;
+      line-height: 1.6;
+      max-width: none;
+      margin: 0;
     }
 
     /* --- Discovery CTA block (full-width, prominent) --- */
@@ -663,6 +693,47 @@
       color: var(--text-muted);
       line-height: 1.7;
       margin-bottom: 24px;
+    }
+
+    /* Founding Client reminder callout — sits inside the Starter pricing card.
+       Delete this block (and the matching markup in the Starter card) when 5
+       founding spots are filled. */
+    .fc-pricing-note {
+      display: block;
+      margin: 0 0 18px 0;
+      padding: 12px 14px;
+      background: var(--accent-light);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+    .fc-pricing-note:hover { background: #E0EAFC; }
+    .fc-pricing-note-eyebrow {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .fc-pricing-note-body {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+    .fc-pricing-note-body strong { color: var(--accent); font-weight: 700; }
+    .fc-pricing-note-cta {
+      display: block;
+      margin-top: 6px;
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--accent);
     }
 
     .pricing-features {
@@ -1665,6 +1736,71 @@
 </head>
 <body>
 
+  <!-- ============================================================
+       FOUNDING CLIENT PROGRAM BANNER (delete this block when 5 spots are filled)
+  ============================================================ -->
+  <style>
+    #fc-banner {
+      background: var(--accent);
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.4;
+      padding: 10px 48px 10px 16px;
+      text-align: center;
+      position: relative;
+      z-index: 50;
+    }
+    #fc-banner strong { font-weight: 600; }
+    #fc-banner a {
+      color: #ffffff;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    #fc-banner a:hover { text-decoration: none; }
+    #fc-banner-close {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 4px 8px;
+      opacity: 0.8;
+    }
+    #fc-banner-close:hover { opacity: 1; }
+    #fc-banner.is-hidden { display: none; }
+    @media (max-width: 600px) {
+      #fc-banner { font-size: 13px; padding: 10px 40px 10px 12px; }
+    }
+  </style>
+  <div id="fc-banner" role="region" aria-label="Founding Client Program announcement">
+    <strong>Founding Client Program</strong> — first 5 trades shops get setup free in exchange for a Google review + case study.
+    <a href="#contact">Book a Discovery Session →</a>
+    <button type="button" id="fc-banner-close" aria-label="Dismiss founding client announcement">&times;</button>
+  </div>
+  <script>
+    (function () {
+      var b = document.getElementById('fc-banner');
+      var c = document.getElementById('fc-banner-close');
+      if (!b || !c) return;
+      try {
+        if (localStorage.getItem('fc-banner-dismissed') === '1') {
+          b.classList.add('is-hidden');
+        }
+      } catch (e) { /* localStorage blocked — banner stays visible, no harm */ }
+      c.addEventListener('click', function () {
+        b.classList.add('is-hidden');
+        try { localStorage.setItem('fc-banner-dismissed', '1'); } catch (e) {}
+      });
+    })();
+  </script>
+
   <!-- SVG Grain Texture Filter (hidden) -->
   <svg style="position:absolute;width:0;height:0" aria-hidden="true">
     <filter id="grain">
@@ -1737,19 +1873,19 @@
       </div>
       <div class="capabilities-grid stagger">
         <div class="capability-item reveal" style="--i:0">
+          <div class="capability-icon"><svg viewBox="0 0 28 28"><path d="M6 4h4l2 5-2.5 1.5a12 12 0 0 0 6 6L17 14l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 4 6a2 2 0 0 1 2-2z"/><circle cx="22" cy="6" r="3"/></svg></div>
+          <span class="capability-label">Missed-Call Recovery</span>
+          <p class="capability-desc">Auto-text every missed call within 30 seconds. Capture leads that used to die at voicemail, log them in a live dashboard, and queue follow-ups. The #1 system we build for trades.</p>
+        </div>
+        <div class="capability-item reveal" style="--i:1">
           <div class="capability-icon"><svg viewBox="0 0 28 28"><rect x="3" y="5" width="22" height="16" rx="2"/><line x1="3" y1="10" x2="25" y2="10"/><polyline points="10 16 12.5 19 10 22"/><polyline points="18 16 15.5 19 18 22"/></svg></div>
           <span class="capability-label">Website Builds</span>
           <p class="capability-desc">Custom sites that represent your business properly — no templates, no filler.</p>
         </div>
-        <div class="capability-item reveal" style="--i:1">
+        <div class="capability-item reveal" style="--i:2">
           <div class="capability-icon"><svg viewBox="0 0 28 28"><path d="M17 7l4 4-4 4"/><path d="M21 11H11a4 4 0 0 0 0 8h1"/><path d="M11 21l-4-4 4-4"/><path d="M7 17h10a4 4 0 0 0 0-8h-1"/></svg></div>
           <span class="capability-label">AI Automations</span>
           <p class="capability-desc">Eliminate repetitive tasks and save hours every week with workflows that run in the background.</p>
-        </div>
-        <div class="capability-item reveal" style="--i:2">
-          <div class="capability-icon"><svg viewBox="0 0 28 28"><path d="M4 19V9a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-9l-5 4v-4H6a2 2 0 0 1-2-1z"/><path d="M15 11l-2 3h3l-2 3"/></svg></div>
-          <span class="capability-label">AI Chatbots</span>
-          <p class="capability-desc">Instant answers for your customers 24/7, trained on your business.</p>
         </div>
         <div class="capability-item reveal" style="--i:3">
           <div class="capability-icon"><svg viewBox="0 0 28 28"><rect x="4" y="16" width="4" height="7" rx="1"/><rect x="12" y="11" width="4" height="12" rx="1"/><rect x="20" y="6" width="4" height="17" rx="1"/><polyline points="4 8 12 5 20 3 25 2"/><polyline points="22 2 25 2 25 5"/></svg></div>
@@ -1780,25 +1916,25 @@
       </div>
       <div class="portfolio-grid">
 
-        <!-- Card 1 — Summit Roofing: Missed Call Text-Back -->
-        <div class="portfolio-card card-video reveal" style="--i:0" role="button" tabindex="0" data-video-modal-trigger aria-label="View Summit Roofing Missed Call Text-Back demo">
+        <!-- Card 1 — Missed Call Text-Back (Signature Build) -->
+        <div class="portfolio-card card-video reveal" style="--i:0" role="button" tabindex="0" data-video-modal-trigger aria-label="View Missed Call Text-Back demo">
           <video class="portfolio-video" src="assets/video/summit-roofing-demo.mp4" poster="assets/video/summit-roofing-demo-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
           <div class="portfolio-video-scrim"></div>
-          <span class="card-video-label">Lead Capture</span>
-          <span class="portfolio-tag">Trades · Lead Recovery</span>
-          <div class="portfolio-title">Summit Roofing — Missed Call Text-Back</div>
-          <p class="portfolio-desc">A Calgary roofing crew was losing 5+ leads a week to missed calls on the job site. We built a system that auto-texts the caller in under 30 seconds, captures every lead in a live dashboard, and queues follow-ups. The owner didn't change his number or download an app — he just stopped losing jobs.</p>
+          <span class="card-video-label">Signature Build</span>
+          <span class="portfolio-tag">Trades · Missed-Call Recovery</span>
+          <div class="portfolio-title">Missed-Call Text-Back — The #1 System We Build</div>
+          <p class="portfolio-desc">A Calgary trades crew was losing 15+ calls a week to voicemail on the job site — an estimated $30K+/year in jobs walking to the next shop. We built a system that auto-texts the caller in under 30 seconds, captures every lead in a live dashboard, and queues follow-ups. The owner didn't change his number or download an app — he just stopped losing jobs.</p>
           <span class="portfolio-badge">Click to Expand</span>
         </div>
 
-        <!-- Card 2 — Peak Flow Weekly Report -->
+        <!-- Card 2 — Peak Flow Weekly Report (What Clients Graduate Into) -->
         <div class="portfolio-card card-video reveal" style="--i:1" role="button" tabindex="0" data-video-modal-trigger aria-label="View Peak Flow Weekly Report demo">
           <video class="portfolio-video" src="assets/video/weekly-report-demo.mp4" poster="assets/video/weekly-report-demo-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
           <div class="portfolio-video-scrim"></div>
-          <span class="card-video-label">Automation</span>
-          <span class="portfolio-tag">Trades · Weekly Report</span>
-          <div class="portfolio-title">Peak Flow Weekly Report</div>
-          <p class="portfolio-desc">A hands-off Monday-morning report for a Calgary plumbing company. Pulls the week's jobs from a Google Sheet, calculates revenue, margin, and week-over-week trends, and delivers a plain-English summary to the owner's inbox — automatically.</p>
+          <span class="card-video-label">Retainer Upgrade</span>
+          <span class="portfolio-tag">Trades · Weekly Business Pulse</span>
+          <div class="portfolio-title">Peak Flow Weekly Report — What Clients Graduate Into</div>
+          <p class="portfolio-desc">Once the missed-call system is in place, this is the next step: a hands-off Monday-morning report for a Calgary plumbing company. Pulls the week's jobs from a Google Sheet, calculates revenue, margin, and week-over-week trends, and delivers a plain-English summary to the owner's inbox — automatically. Our Weekly Business Pulse retainer ($750 setup + $250/mo) is built around this exact idea.</p>
           <span class="portfolio-badge">Click to Expand</span>
         </div>
 
@@ -1896,6 +2032,11 @@
         <div class="pricing-card reveal" style="--i:0">
           <span class="pricing-tier">Starter</span>
           <div class="pricing-range">From $500</div>
+          <a href="#contact" class="fc-pricing-note" aria-label="Founding Client Program: setup is free for the first 5 trades shops. Book a free Discovery call.">
+            <span class="fc-pricing-note-eyebrow">Founding Client Program</span>
+            <span class="fc-pricing-note-body">First 5 trades shops get this setup <strong>free</strong> in exchange for a Google review + case study.</span>
+            <span class="fc-pricing-note-cta">Book a free Discovery call →</span>
+          </a>
           <p class="pricing-desc">One focused project — built around your biggest need.</p>
           <ul class="pricing-features">
             <li>One custom deliverable — a website, automation, or whatever fits</li>

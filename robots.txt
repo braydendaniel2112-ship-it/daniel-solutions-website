@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://daniel-solutions.vercel.app/sitemap.xml
+Sitemap: https://danielsolutions.ca/sitemap.xml

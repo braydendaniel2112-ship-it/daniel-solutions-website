@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "daniel-solutions.vercel.app" }],
+      "destination": "https://danielsolutions.ca/$1",
+      "permanent": true
+    }
+  ]
+}
