@@ -1789,15 +1789,49 @@
       var b = document.getElementById('fc-banner');
       var c = document.getElementById('fc-banner-close');
       if (!b || !c) return;
+
+      var navWrapper = null;
+      var DEFAULT_NAV_TOP = 20; // matches .nav-wrapper { top: 20px }
+
+      function getNav() {
+        if (!navWrapper) navWrapper = document.querySelector('.nav-wrapper');
+        return navWrapper;
+      }
+
+      // Push the floating nav below the banner so they don't overlap on initial
+      // viewport. As the user scrolls, slide the nav back up toward its normal
+      // top:20px position. When banner is dismissed, snap back immediately.
+      function syncNavTop() {
+        var nav = getNav();
+        if (!nav) return;
+        if (b.classList.contains('is-hidden')) {
+          nav.style.top = DEFAULT_NAV_TOP + 'px';
+          return;
+        }
+        var bannerH = b.offsetHeight;
+        var scrollY = window.scrollY || window.pageYOffset || 0;
+        var navTop = Math.max(DEFAULT_NAV_TOP, bannerH - scrollY + DEFAULT_NAV_TOP);
+        nav.style.top = navTop + 'px';
+      }
+
       try {
         if (localStorage.getItem('fc-banner-dismissed') === '1') {
           b.classList.add('is-hidden');
         }
       } catch (e) { /* localStorage blocked — banner stays visible, no harm */ }
+
       c.addEventListener('click', function () {
         b.classList.add('is-hidden');
         try { localStorage.setItem('fc-banner-dismissed', '1'); } catch (e) {}
+        syncNavTop();
       });
+
+      // Run once on load (and again after fonts settle so banner height is
+      // accurate after any wrapping). Also re-run on resize + scroll.
+      syncNavTop();
+      window.addEventListener('load', syncNavTop);
+      window.addEventListener('resize', syncNavTop);
+      window.addEventListener('scroll', syncNavTop, { passive: true });
     })();
   </script>
 
