@@ -15,7 +15,7 @@
   <meta name="google-site-verification" content="IIc8VqqJZ0BnAYzhOZkZU9Rhew_yEkECwmctCSJXVpI" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@500&family=Newsreader:ital,opsz,wght@0,18..30,400;0,18..30,500;1,18..30,400&display=swap" rel="stylesheet" />
 
   <style>
     /* ============================================================
@@ -30,11 +30,14 @@
       --accent:        #2563EB;
       --accent-hover:  #1D4ED8;
       --accent-light:  #EFF6FF;
+      --accent-2:      #7DD3FC;
+      --accent-2-soft: rgba(125, 211, 252, 0.18);
       --border:        #E8E8E4;
       --font-display:  'Plus Jakarta Sans', sans-serif;
       --font-body:     'Inter', sans-serif;
       --font-mono:     'JetBrains Mono', monospace;
-      --radius-card:   16px;
+      --font-serif:    'Newsreader', Georgia, serif;
+      --radius-card:   14px;
       --radius-pill:   999px;
       --ease-spring:   cubic-bezier(0.23, 1, 0.32, 1);
     }
@@ -46,6 +49,33 @@
 
     html { scroll-behavior: smooth; }
 
+    /* Custom selection color — accent at low opacity, text stays readable */
+    ::selection {
+      background: rgba(37, 99, 235, 0.22);
+      color: inherit;
+    }
+    ::-moz-selection {
+      background: rgba(37, 99, 235, 0.22);
+      color: inherit;
+    }
+
+    /* Smart focus rings — only show on keyboard navigation, use brand colors */
+    :focus { outline: none; }
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+    }
+    /* Pill buttons get a pill-shaped focus ring */
+    .btn-primary:focus-visible,
+    .btn-outline:focus-visible,
+    .btn-nav:focus-visible,
+    .btn-pricing:focus-visible,
+    .btn-submit:focus-visible {
+      border-radius: var(--radius-pill);
+    }
+
     body {
       font-family: var(--font-body);
       font-size: 16px;
@@ -53,6 +83,8 @@
       background: var(--bg-page);
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      font-optical-sizing: auto;
+      text-rendering: optimizeLegibility;
     }
 
     img { display: block; max-width: 100%; }
@@ -103,14 +135,8 @@
     }
 
     .logo-ai {
-      color: var(--accent);
-      animation: aiPulse 2s ease-in-out infinite;
+      color: var(--accent-2);
       display: inline;
-    }
-
-    @keyframes aiPulse {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.7; }
     }
 
     /* Scroll reveal */
@@ -307,28 +333,58 @@
       overflow: hidden;
     }
 
-    /* Subtle radial glow behind hero text */
+    /* B2 — Diagnostic pulse. Three staggered concentric rings expanding from
+       behind the headline. Echoes the "I work like a doctor" pull-quote
+       metaphor as motion. Calibrated to be felt, not seen. */
+    .diagnostic-pulse {
+      position: absolute;
+      top: 44%;
+      left: 50%;
+      width: 320px;
+      height: 320px;
+      margin: -160px 0 0 -160px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .diagnostic-pulse span {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1.5px solid var(--accent-2);
+      opacity: 0;
+      transform: scale(0.12);
+      animation: diagnosticPulse 11s cubic-bezier(0.16, 0.84, 0.44, 1) infinite;
+    }
+
+    .diagnostic-pulse span:nth-child(1) { animation-delay: 0s; }
+    .diagnostic-pulse span:nth-child(2) { animation-delay: -3.7s; }
+    .diagnostic-pulse span:nth-child(3) { animation-delay: -7.4s; }
+
+    @keyframes diagnosticPulse {
+      0%   { transform: scale(0.12); opacity: 0;    border-width: 2px; }
+      8%   {                          opacity: 0.18;                    }
+      85%  {                          opacity: 0;                       }
+      100% { transform: scale(7);     opacity: 0;    border-width: 0.5px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .diagnostic-pulse { display: none; }
+    }
+
+    /* Layered radial glows behind hero — gives the dark surface depth without effects clutter */
     #hero::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(37,99,235,0.12) 0%, transparent 70%);
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 38%, rgba(37,99,235,0.20) 0%, transparent 65%),
+        radial-gradient(ellipse 95% 75% at 50% 62%, rgba(125,211,252,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 100% at 50% 100%, rgba(37,99,235,0.12) 0%, transparent 65%);
       pointer-events: none;
-    }
-
-
-    /* Dot grid canvas */
-    #dotGrid {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
       z-index: 0;
-      opacity: 0.35;
-      -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 85%);
-      mask-image: linear-gradient(to bottom, black 55%, transparent 85%);
     }
+
 
     .hero-content {
       position: relative;
@@ -345,6 +401,9 @@
       text-transform: uppercase;
       margin-bottom: 28px;
       opacity: 0;
+      transform: translateY(20px);
+    }
+    #hero.is-animating .hero-eyebrow {
       animation: heroFadeUp 0.6s ease-out 0.1s forwards;
     }
 
@@ -361,15 +420,57 @@
     .hero-line {
       display: block;
       opacity: 0;
+      transform: translateY(30px);
+      padding-bottom: 0.06em;
+      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.55);
+      background-image: linear-gradient(to right, #ffffff, #ffffff);
+      background-size: 0% 120%;
+      background-repeat: no-repeat;
+      background-position: left top;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      will-change: opacity, transform, background-size;
     }
 
-    .hero-line:nth-child(1) { animation: heroFadeUp 0.7s ease-out 0.2s forwards; }
-    .hero-line:nth-child(2) { animation: heroFadeUp 0.7s ease-out 0.37s forwards; }
-    .hero-line:nth-child(3) { animation: heroFadeUp 0.7s ease-out 0.54s forwards; }
+    #hero.is-animating .hero-line:nth-child(1) { animation: heroInkFill 1.4s cubic-bezier(0.23, 1, 0.32, 1) 0.20s forwards; }
+    #hero.is-animating .hero-line:nth-child(2) { animation: heroInkFill 1.4s cubic-bezier(0.23, 1, 0.32, 1) 0.42s forwards; }
+    #hero.is-animating .hero-line:nth-child(3) { animation: heroInkFill 1.4s cubic-bezier(0.23, 1, 0.32, 1) 0.64s forwards; }
 
+    @keyframes heroInkFill {
+      0%   { opacity: 0; transform: translateY(30px); background-size: 0% 120%; }
+      30%  { opacity: 1; transform: translateY(0);    background-size: 0% 120%; }
+      100% { opacity: 1; transform: translateY(0);    background-size: 100% 120%; }
+    }
+
+    /* Restore the fade-up keyframe used by hero eyebrow / sub / CTAs */
     @keyframes heroFadeUp {
-      from { opacity: 0; transform: translateY(30px); }
+      from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Skip the ink effect for users who prefer reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-line {
+        -webkit-text-stroke: 0;
+        -webkit-text-fill-color: #ffffff;
+        color: #ffffff;
+        background-image: none;
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* Fallback for browsers without background-clip:text — text just shows white */
+    @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+      .hero-line {
+        -webkit-text-stroke: 0;
+        -webkit-text-fill-color: #ffffff;
+        color: #ffffff;
+        background-image: none;
+      }
     }
 
     .hero-sub {
@@ -381,7 +482,10 @@
       margin: 0 auto 40px;
       line-height: 1.7;
       opacity: 0;
-      animation: heroFadeUp 0.7s ease-out 0.72s forwards;
+      transform: translateY(20px);
+    }
+    #hero.is-animating .hero-sub {
+      animation: heroFadeUp 0.7s ease-out 0.95s forwards;
     }
 
     .hero-ctas {
@@ -390,7 +494,10 @@
       justify-content: center;
       flex-wrap: wrap;
       opacity: 0;
-      animation: heroFadeUp 0.7s ease-out 0.88s forwards;
+      transform: translateY(20px);
+    }
+    #hero.is-animating .hero-ctas {
+      animation: heroFadeUp 0.7s ease-out 1.15s forwards;
     }
 
     .btn-primary {
@@ -443,7 +550,7 @@
     ============================================================ */
     #services {
       background: var(--bg-page);
-      padding: 96px 0;
+      padding: 72px 0 80px;
     }
 
     .services-header {
@@ -508,7 +615,7 @@
       height: 44px;
       min-width: 44px;
       background: var(--accent-light);
-      border-radius: 10px;
+      border-radius: var(--radius-card);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -586,7 +693,7 @@
       font-family: var(--font-display);
       font-weight: 600;
       font-size: 15px;
-      border-radius: 10px;
+      border-radius: var(--radius-pill);
       text-decoration: none;
       transition: background 0.2s, transform 0.2s;
     }
@@ -597,11 +704,88 @@
     }
 
     /* ============================================================
+       PULL QUOTE
+    ============================================================ */
+    #pullquote {
+      background: var(--bg-page);
+      padding: 88px 0 96px;
+      position: relative;
+    }
+
+    #pullquote::before,
+    #pullquote::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(640px, 80%);
+      height: 1px;
+      background: var(--border);
+    }
+    #pullquote::before { top: 0; }
+    #pullquote::after  { bottom: 0; }
+
+    .pullquote-inner {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 24px;
+      text-align: center;
+    }
+
+    .pullquote-mark {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 96px;
+      line-height: 0.6;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 16px;
+      opacity: 0.7;
+    }
+
+    .pullquote-text {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(28px, 4.4vw, 48px);
+      line-height: 1.18;
+      letter-spacing: -0.015em;
+      color: var(--text-primary);
+      margin: 0 0 28px;
+      font-variation-settings: "opsz" 30;
+      hanging-punctuation: first last;
+    }
+
+    .pullquote-text em {
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    .pullquote-attr {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .pullquote-attr strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    @media (max-width: 600px) {
+      #pullquote { padding: 64px 0 72px; }
+      .pullquote-mark { font-size: 72px; }
+    }
+
+    /* ============================================================
        PRICING
     ============================================================ */
     #pricing {
       background: var(--bg-surface);
-      padding: 96px 0;
+      padding: 120px 0 104px;
     }
 
     .pricing-header { margin-bottom: 16px; }
@@ -685,6 +869,7 @@
       color: var(--text-primary);
       line-height: 1.2;
       margin-bottom: 12px;
+      font-variant-numeric: tabular-nums;
     }
 
     .pricing-desc {
@@ -704,7 +889,7 @@
       padding: 12px 14px;
       background: var(--accent-light);
       border-left: 3px solid var(--accent);
-      border-radius: 6px;
+      border-radius: var(--radius-card);
       text-decoration: none;
       transition: background 0.2s ease;
     }
@@ -830,90 +1015,94 @@
     ============================================================ */
     #process {
       background: var(--bg-page);
-      padding: 96px 0;
+      padding: 112px 0 128px;
+      position: relative;
     }
 
     .process-header {
-      margin-bottom: 64px;
+      margin-bottom: 80px;
+      max-width: 720px;
     }
 
+    /* Zigzag magazine layout */
     .steps-row {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 0;
       position: relative;
-    }
-
-    /* Connecting line */
-    .steps-row::before {
-      content: '';
-      position: absolute;
-      top: 44px;
-      left: calc(10% + 24px);
-      right: calc(10% + 24px);
-      height: 2px;
-      background: linear-gradient(to right, var(--accent) 0%, var(--accent) 100%);
-      opacity: 0.25;
-      z-index: 0;
+      padding: 24px 0 56px;
     }
 
     .step {
-      padding: 0 28px;
+      padding: 0 18px;
       position: relative;
       z-index: 1;
     }
 
+    /* alternating vertical offset gives the section a designed cadence
+       instead of a flat row */
+    .step:nth-child(1) { transform: translateY(0); }
+    .step:nth-child(2) { transform: translateY(48px); }
+    .step:nth-child(3) { transform: translateY(8px); }
+    .step:nth-child(4) { transform: translateY(56px); }
+    .step:nth-child(5) { transform: translateY(16px); }
+
+    /* Step number — now a deliberate typographic element, not a watermark */
     .step-number-bg {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: 96px;
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 500;
+      font-size: 88px;
       color: var(--accent);
-      opacity: 0.1;
-      line-height: 1;
-      margin-bottom: -20px;
+      opacity: 1;
+      line-height: 0.9;
+      margin: 0 0 18px;
       display: block;
       user-select: none;
+      letter-spacing: -0.04em;
+    }
+
+    /* Step 01 — visually anchors the sequence as the entry point */
+    .step:first-child .step-number-bg {
+      font-size: 124px;
+      margin-bottom: 8px;
     }
 
     .step-dot {
-      width: 12px;
-      height: 12px;
-      background: var(--accent);
-      border-radius: 50%;
-      margin-bottom: 20px;
+      width: 28px;
+      height: 1px;
+      background: linear-gradient(to right, var(--accent), var(--accent-2));
+      margin-bottom: 18px;
       position: relative;
+      opacity: 0.85;
     }
 
-    .step-dot::before {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      border: 2px solid rgba(37, 99, 235, 0.25);
-    }
+    .step-dot::before { display: none; }
 
     @keyframes dotPulse {
-      0%, 100% { transform: scale(1); opacity: 0.7; }
-      50% { transform: scale(1.4); opacity: 1; }
+      0%, 100% { transform: scaleX(1); opacity: 0.6; }
+      50%      { transform: scaleX(1.6); opacity: 1; }
     }
 
     .step.visible .step-dot {
-      animation: dotPulse 2s ease-in-out infinite;
+      animation: dotPulse 2.4s ease-in-out infinite;
+      transform-origin: left center;
     }
 
     .step-title {
       font-family: var(--font-display);
-      font-weight: 600;
-      font-size: 20px;
+      font-weight: 700;
+      font-size: 18px;
       color: var(--text-primary);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
     }
 
     .step-desc {
       font-family: var(--font-body);
-      font-size: 14.5px;
+      font-size: 14px;
       color: var(--text-muted);
-      line-height: 1.7;
+      line-height: 1.65;
     }
 
     /* ============================================================
@@ -921,7 +1110,7 @@
     ============================================================ */
     #work {
       background: var(--bg-page);
-      padding: 96px 0;
+      padding: 96px 0 80px;
     }
 
     .portfolio-header {
@@ -1073,6 +1262,23 @@
     }
     .card-video:hover .card-video-label { opacity: 0; }
 
+    /* Date stamp — always visible, signals "this is real and shipped" */
+    .portfolio-date {
+      position: absolute;
+      top: 22px;
+      right: 20px;
+      z-index: 3;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.55);
+      pointer-events: none;
+      transition: opacity 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .card-video:hover .portfolio-date,
+    .card-image:hover .portfolio-date { opacity: 0; }
+
     /* Image card (mirrors card-video reveal pattern) */
     .card-image {
       background: var(--bg-dark);
@@ -1141,7 +1347,7 @@
       width: 100%;
       aspect-ratio: 16 / 9;
       background: #000;
-      border-radius: 16px;
+      border-radius: var(--radius-card);
       overflow: hidden;
       box-shadow: 0 40px 120px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
     }
@@ -1158,7 +1364,7 @@
       right: 16px;
       width: 44px;
       height: 44px;
-      border-radius: 999px;
+      border-radius: var(--radius-pill);
       border: 1.5px solid rgba(255, 255, 255, 0.35);
       background: rgba(10, 14, 22, 0.72);
       backdrop-filter: blur(10px);
@@ -1260,75 +1466,11 @@
     }
 
     /* ============================================================
-       TESTIMONIALS
-    ============================================================ */
-    #testimonials {
-      background: var(--bg-surface);
-      padding: 96px 0;
-    }
-
-    .testimonials-header { margin-bottom: 56px; }
-
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-    }
-
-    .testimonial-card {
-      background: var(--bg-page);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-card);
-      padding: 40px 36px;
-      position: relative;
-      transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-    .testimonial-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 2px 8px rgba(30, 42, 58, 0.06), 0 16px 40px rgba(37, 99, 235, 0.10);
-    }
-
-    .quote-mark {
-      font-family: var(--font-display);
-      font-size: 80px;
-      font-weight: 800;
-      color: var(--accent);
-      line-height: 0.8;
-      margin-bottom: 24px;
-      display: block;
-      opacity: 0.9;
-    }
-
-    .testimonial-quote {
-      font-family: var(--font-body);
-      font-size: 16px;
-      font-style: italic;
-      color: var(--text-primary);
-      line-height: 1.7;
-      margin-bottom: 28px;
-    }
-
-    .testimonial-stars {
-      font-size: 16px;
-      color: #F59E0B;
-      margin-bottom: 14px;
-      letter-spacing: 2px;
-    }
-
-    .testimonial-client {
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-muted);
-    }
-
-    /* ============================================================
        BLOG / INSIGHTS
     ============================================================ */
     #insights {
       background: var(--bg-page);
-      padding: 96px 0;
+      padding: 80px 0 88px;
     }
 
     .insights-header { margin-bottom: 56px; }
@@ -1401,72 +1543,87 @@
     ============================================================ */
     #about {
       background: var(--bg-page);
-      padding: 96px 0;
+      padding: 128px 0 112px;
     }
 
     .about-grid {
       display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 72px;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 64px;
       align-items: start;
+      position: relative;
+    }
+
+    .about-left {
+      position: sticky;
+      top: 110px;
+    }
+
+    .about-left .eyebrow {
+      margin-bottom: 14px;
     }
 
     .about-left .section-heading {
-      font-size: clamp(32px, 4.5vw, 52px);
-      line-height: 1.12;
+      font-size: clamp(28px, 3.4vw, 38px);
+      line-height: 1.14;
+      margin-bottom: 32px;
+    }
+
+    .about-portrait {
+      position: relative;
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      background: var(--border);
+      aspect-ratio: 4 / 5;
+      max-width: 360px;
+      box-shadow: 0 24px 50px -22px rgba(30, 42, 58, 0.35);
+      margin-bottom: 14px;
+    }
+
+    .about-portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 18%;
+      display: block;
+    }
+
+    .about-portrait::before {
+      content: '';
+      position: absolute;
+      inset: -10px -10px 14px 14px;
+      border: 1.5px solid var(--accent);
+      border-radius: var(--radius-card);
+      z-index: -1;
+      opacity: 0.55;
+    }
+
+    .about-portrait-caption {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: block;
+      max-width: 360px;
     }
 
     .about-right p {
-      font-family: var(--font-body);
-      font-size: 15.5px;
-      color: var(--text-muted);
-      line-height: 1.8;
-      margin-bottom: 20px;
+      font-family: var(--font-serif);
+      font-size: 18px;
+      color: var(--text-primary);
+      line-height: 1.65;
+      margin-bottom: 22px;
+      letter-spacing: -0.005em;
+      font-variation-settings: "opsz" 18;
     }
 
     .about-right p:last-of-type { margin-bottom: 0; }
 
-    .stats-row {
-      display: flex;
-      gap: 0;
-      margin-top: 48px;
-    }
-
-    .stat-block {
-      flex: 1;
-      padding: 0 24px 0 0;
-      border-right: 1px solid var(--border);
-    }
-
-    .stat-block:last-child {
-      border-right: none;
-      padding-right: 0;
-      padding-left: 24px;
-    }
-
-    .stat-block:not(:first-child):not(:last-child) {
-      padding: 0 24px;
-    }
-
-    .stat-value {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: clamp(28px, 4vw, 40px);
-      letter-spacing: -0.03em;
-      color: var(--accent);
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .stat-block.stat-anchor .stat-value {
-      font-size: clamp(40px, 5vw, 56px);
-    }
-
-    .stat-label {
-      font-family: var(--font-body);
-      font-size: 12.5px;
-      color: var(--text-muted);
-      line-height: 1.4;
+    @media (min-width: 769px) {
+      .about-right {
+        margin-top: 4px;
+      }
     }
 
     /* ============================================================
@@ -1474,7 +1631,7 @@
     ============================================================ */
     #contact {
       background: var(--bg-dark);
-      padding: 96px 0;
+      padding: 112px 0 104px;
     }
 
     .contact-inner {
@@ -1523,7 +1680,7 @@
     .form-group textarea {
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 10px;
+      border-radius: var(--radius-card);
       padding: 13px 16px;
       font-family: var(--font-body);
       font-size: 14.5px;
@@ -1655,8 +1812,18 @@
 
       .steps-row {
         grid-template-columns: repeat(3, 1fr);
-        gap: 32px;
+        gap: 48px 32px;
       }
+
+      /* tighten the zigzag on tablet */
+      .step:nth-child(1),
+      .step:nth-child(2),
+      .step:nth-child(3),
+      .step:nth-child(4),
+      .step:nth-child(5) { transform: translateY(0); }
+
+      .step:nth-child(2) { transform: translateY(28px); }
+      .step:nth-child(4) { transform: translateY(28px); }
     }
 
     @media (max-width: 768px) {
@@ -1668,7 +1835,6 @@
       .discovery-cta { padding: 36px 28px; }
 
       .portfolio-grid,
-      .testimonials-grid,
       .pricing-grid,
       .insights-grid { grid-template-columns: 1fr; }
 
@@ -1683,29 +1849,30 @@
       .steps-row {
         grid-template-columns: 1fr;
         gap: 40px;
+        padding: 8px 0 0;
       }
 
-      .steps-row::before { display: none; }
+      .step,
+      .step:nth-child(1),
+      .step:nth-child(2),
+      .step:nth-child(3),
+      .step:nth-child(4),
+      .step:nth-child(5) {
+        padding: 0;
+        transform: translateY(0);
+      }
 
-      .step { padding: 0; }
+      .step:first-child .step-number-bg { font-size: 88px; }
 
       .about-grid {
         grid-template-columns: 1fr;
         gap: 40px;
       }
 
-      .stats-row {
-        flex-direction: column;
-        gap: 24px;
-      }
-
-      .stat-block {
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-        padding: 0 0 24px 0 !important;
-      }
-
-      .stat-block:last-child { border-bottom: none; padding-bottom: 0 !important; }
+      .about-left { position: static; }
+      .about-portrait { aspect-ratio: 4 / 5; max-width: 380px; margin-bottom: 24px; }
+      .about-portrait::before { display: none; }
+      .about-right p { font-size: 17px; }
 
       .contact-form {
         grid-template-columns: 1fr;
@@ -1729,7 +1896,6 @@
       .discovery-cta-heading { font-size: 20px; }
       .discovery-cta-text { font-size: 14px; }
       .portfolio-card { padding: 28px 24px; }
-      .testimonial-card { padding: 28px 24px; }
       .insight-card { padding: 28px 24px; }
     }
   </style>
@@ -1877,7 +2043,9 @@
        HERO
   ============================================================ -->
   <section id="hero" class="grain-overlay">
-    <canvas id="dotGrid"></canvas>
+    <div class="diagnostic-pulse" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
     <div class="hero-content">
       <span class="hero-eyebrow">Daniel Solutions · Calgary</span>
       <h1 class="hero-headline">
@@ -1955,6 +2123,7 @@
           <video class="portfolio-video" src="assets/video/summit-roofing-demo.mp4" poster="assets/video/summit-roofing-demo-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
           <div class="portfolio-video-scrim"></div>
           <span class="card-video-label">Signature Build</span>
+          <span class="portfolio-date">Apr 2026</span>
           <span class="portfolio-tag">Trades · Missed-Call Recovery</span>
           <div class="portfolio-title">Missed-Call Text-Back — The #1 System We Build</div>
           <p class="portfolio-desc">A Calgary trades crew was losing 15+ calls a week to voicemail on the job site — an estimated $30K+/year in jobs walking to the next shop. We built a system that auto-texts the caller in under 30 seconds, captures every lead in a live dashboard, and queues follow-ups. The owner didn't change his number or download an app — he just stopped losing jobs.</p>
@@ -1966,6 +2135,7 @@
           <video class="portfolio-video" src="assets/video/weekly-report-demo.mp4" poster="assets/video/weekly-report-demo-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
           <div class="portfolio-video-scrim"></div>
           <span class="card-video-label">Retainer Upgrade</span>
+          <span class="portfolio-date">Apr 2026</span>
           <span class="portfolio-tag">Trades · Weekly Business Pulse</span>
           <div class="portfolio-title">Peak Flow Weekly Report — What Clients Graduate Into</div>
           <p class="portfolio-desc">Once the missed-call system is in place, this is the next step: a hands-off Monday-morning report for a Calgary plumbing company. Pulls the week's jobs from a Google Sheet, calculates revenue, margin, and week-over-week trends, and delivers a plain-English summary to the owner's inbox — automatically. Our Weekly Business Pulse retainer ($750 setup + $250/mo) is built around this exact idea.</p>
@@ -1977,6 +2147,7 @@
           <img class="portfolio-image" src="assets/images/calgary-grille-cover.jpg" alt="The Calgary Grille website homepage" loading="lazy">
           <div class="portfolio-video-scrim"></div>
           <span class="card-video-label">Website</span>
+          <span class="portfolio-date">Apr 2026</span>
           <span class="portfolio-tag">Restaurant · Website</span>
           <div class="portfolio-title">The Calgary Grille</div>
           <p class="portfolio-desc">A premium 3-page restaurant website built for a downtown Calgary fine dining concept. Includes homepage, full menu, and reservations page.</p>
@@ -1988,6 +2159,7 @@
           <video class="portfolio-video" src="assets/video/cody-demo.mp4" poster="assets/video/cody-demo-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
           <div class="portfolio-video-scrim"></div>
           <span class="card-video-label">AI Chatbot</span>
+          <span class="portfolio-date">Apr 2026</span>
           <span class="portfolio-tag">Barbershop · AI Chatbot</span>
           <div class="portfolio-title">Cody — Fade &amp; Co.</div>
           <p class="portfolio-desc">A conversational AI assistant built for a Calgary barbershop. Customers ask about hours, pricing, and bookings — Cody answers instantly and scrolls them to the right section of the site.</p>
@@ -2047,6 +2219,17 @@
           <p class="step-desc">We don't disappear after launch. Monthly check-ins, updates, and optimization so your investment keeps working for you.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PULL QUOTE
+  ============================================================ -->
+  <section id="pullquote">
+    <div class="pullquote-inner reveal">
+      <span class="pullquote-mark" aria-hidden="true">&ldquo;</span>
+      <p class="pullquote-text">I work like a <em>doctor</em>, not a pharmacist. Diagnose first, prescribe second.</p>
+      <div class="pullquote-attr">— <strong>Brayden</strong> &nbsp;·&nbsp; Founder, Daniel Solutions</div>
     </div>
   </section>
 
@@ -2118,35 +2301,6 @@
   </section>
 
   <!-- ============================================================
-       TESTIMONIALS
-  ============================================================ -->
-  <section id="testimonials">
-    <div class="container">
-      <div class="testimonials-header reveal">
-        <span class="eyebrow">Kind Words</span>
-        <h2 class="section-heading">What clients say.</h2>
-      </div>
-      <div class="testimonials-grid">
-
-        <div class="testimonial-card reveal" style="--i:0">
-          <span class="quote-mark">"</span>
-          <p class="testimonial-quote">Working with Daniel Solutions was the best decision we made for our business. Our new website has already brought in 3 new clients in the first week.</p>
-          <div class="testimonial-stars">★★★★★</div>
-          <div class="testimonial-client">Client Name · Business Type · Calgary</div>
-        </div>
-
-        <div class="testimonial-card reveal" style="--i:1">
-          <span class="quote-mark">"</span>
-          <p class="testimonial-quote">The automation they built saves our team over 5 hours every week. It just runs in the background and we never have to think about it.</p>
-          <div class="testimonial-stars">★★★★★</div>
-          <div class="testimonial-client">Client Name · Business Type · Calgary</div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
        BLOG / INSIGHTS
   ============================================================ -->
   <section id="insights">
@@ -2175,12 +2329,14 @@
         </div>
         </a>
 
+        <a href="/blog/why-calgary-trades-lose-jobs-after-5pm/" style="text-decoration:none;color:inherit;display:block">
         <div class="insight-card reveal" style="--i:2">
-          <span class="insight-category">Web Design</span>
-          <div class="insight-title">Why Your Website Isn't Getting You Clients (And How to Fix It)</div>
-          <p class="insight-excerpt">Most business websites are digital brochures that no one reads. Here's what actually converts visitors into calls.</p>
-          <span class="insight-badge">Coming Soon</span>
+          <span class="insight-category">Trades · Calgary</span>
+          <div class="insight-title">Why Calgary Trades Lose Jobs After 5pm (And How AI Catches Every Call)</div>
+          <p class="insight-excerpt">Plumbers, HVAC, and electricians lose $45K–$120K a year to missed after-hours calls. Here's what the data shows — and how AI fixes it.</p>
+          <span class="insight-badge" style="color:var(--accent);border-color:var(--accent);background:var(--accent-light)">Read Article →</span>
         </div>
+        </a>
 
       </div>
     </div>
@@ -2193,27 +2349,17 @@
     <div class="container">
       <div class="about-grid">
         <div class="about-left reveal">
-          <span class="eyebrow">About</span>
-          <h2 class="section-heading">Real person.<br>Real business.<br>Real results.</h2>
+          <span class="eyebrow">About Daniel Solutions</span>
+          <h2 class="section-heading">Smart systems for owners who don't have time to build them.</h2>
+          <figure class="about-portrait">
+            <img src="assets/images/Brayden%20Headshot.png" alt="Brayden, founder of Daniel Solutions" loading="lazy" />
+          </figure>
+          <span class="about-portrait-caption">Brayden · Founder · Calgary</span>
         </div>
         <div class="about-right reveal" style="--i:1">
-          <p>I'm Brayden, the founder of Daniel Solutions. I started this business because I saw how many great local businesses were being left behind digitally — not because they didn't care, but because the tools and agencies that existed were either too expensive, too slow, or too generic to actually help them.</p>
-          <p>Daniel Solutions exists to change that. I use the latest AI tools to build websites and automations that would have cost 5x more and taken 10x longer just a few years ago. My clients get professional results, fast turnaround, and someone who actually answers when they call.</p>
-          <p>Based in Calgary. Building for businesses across Alberta and beyond.</p>
-          <div class="stats-row">
-            <div class="stat-block stat-anchor">
-              <span class="stat-value">48hrs</span>
-              <span class="stat-label">Average website<br>delivery time</span>
-            </div>
-            <div class="stat-block">
-              <span class="stat-value">$0</span>
-              <span class="stat-label">Monthly hosting cost<br>for static sites</span>
-            </div>
-            <div class="stat-block">
-              <span class="stat-value">100%</span>
-              <span class="stat-label">Projects delivered<br>on time</span>
-            </div>
-          </div>
+          <p>I'm Brayden, the founder of Daniel Solutions. I didn't set out to start an agency — I started by automating my own work. The systems I built to run a side hustle, a trading workflow, and the day-to-day admin nobody had time for turned out to be exactly what most small businesses are missing: smart, lightweight automation that handles the stuff dragging you down. Daniel Solutions exists to put those systems in the hands of owners who can't (and shouldn't have to) hire a full tech team.</p>
+          <p>I work like a doctor, not a pharmacist. Every engagement starts with a free Discovery Session so we can diagnose what's actually broken before prescribing a fix — missed-call recovery, automated reporting, AI-handled admin, custom websites when one's the right tool. No bloated retainers. No cookie-cutter packages. Just the system your business actually needs.</p>
+          <p>Based in Calgary. Built for any business owner who'd rather spend an hour with their family than another hour fighting their inbox.</p>
         </div>
       </div>
     </div>
@@ -2328,7 +2474,7 @@
     });
 
     /* ----------------------------------------------------------
-       SCROLL REVEAL — Intersection Observer
+       SCROLL REVEAL — Intersection Observer (replays on every entry)
     ---------------------------------------------------------- */
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -2343,6 +2489,29 @@
     document.querySelectorAll('.reveal').forEach(el => {
       revealObserver.observe(el);
     });
+
+    /* ----------------------------------------------------------
+       HERO REPLAY — re-trigger ink-fill + fade-ups on every entry
+    ---------------------------------------------------------- */
+    (function () {
+      const hero = document.getElementById('hero');
+      if (!hero) return;
+
+      const heroAnimObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Force reflow so removing+adding the class actually replays the animations
+            hero.classList.remove('is-animating');
+            void hero.offsetWidth;
+            hero.classList.add('is-animating');
+          } else {
+            hero.classList.remove('is-animating');
+          }
+        });
+      }, { threshold: 0.35 });
+
+      heroAnimObserver.observe(hero);
+    })();
 
     /* ----------------------------------------------------------
        CONTACT FORM
@@ -2362,70 +2531,60 @@
     }
 
     /* ----------------------------------------------------------
-       DOT GRID CANVAS
+       MAGNETIC CTAs — buttons subtly lean toward the cursor when within ~80px.
+       Disabled on touch devices and for reduced-motion users.
     ---------------------------------------------------------- */
     (function () {
-      const canvas = document.getElementById('dotGrid');
-      const ctx = canvas.getContext('2d');
-      const SPACING = window.innerWidth < 768 ? 48 : 32;
-      const RADIUS = 1.5;
-      const DOT_COLOR = [99, 155, 255];
-      let dots = [];
-      let animId;
-      let isVisible = true;
+      if (window.matchMedia('(hover: none)').matches) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-      function buildDots() {
-        dots = [];
-        const cols = Math.ceil(canvas.width / SPACING) + 1;
-        const rows = Math.ceil(canvas.height / SPACING) + 1;
-        for (let r = 0; r < rows; r++) {
-          for (let c = 0; c < cols; c++) {
-            dots.push({
-              x: c * SPACING,
-              y: r * SPACING,
-              phase: Math.random() * Math.PI * 2,
-              speed: 0.4 + Math.random() * 0.6
-            });
+      const RADIUS = 80;
+      const STRENGTH = 0.28;
+      const SCALE_MAX = 1.04;
+      const SELECTOR = '.btn-primary, .btn-outline, .btn-discovery-cta, .btn-submit, .btn-nav';
+
+      let pending = false;
+      let lastX = 0, lastY = 0;
+
+      function update() {
+        pending = false;
+        const buttons = document.querySelectorAll(SELECTOR);
+        buttons.forEach((el) => {
+          // Skip elements not currently in viewport (cheap check)
+          const rect = el.getBoundingClientRect();
+          if (rect.bottom < -RADIUS || rect.top > window.innerHeight + RADIUS) return;
+
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2;
+          const dx = lastX - cx;
+          const dy = lastY - cy;
+          const dist = Math.hypot(dx, dy);
+          const effectiveRadius = RADIUS + Math.max(rect.width, rect.height) / 2;
+
+          if (dist > effectiveRadius) {
+            if (el.style.transform) el.style.transform = '';
+            return;
           }
-        }
+          const pull = 1 - dist / effectiveRadius;
+          const tx = dx * STRENGTH * pull;
+          const ty = dy * STRENGTH * pull;
+          const scale = 1 + (SCALE_MAX - 1) * pull;
+          el.style.transform = `translate(${tx.toFixed(2)}px, ${ty.toFixed(2)}px) scale(${scale.toFixed(3)})`;
+        });
       }
 
-      function resize() {
-        const hero = document.getElementById('hero');
-        canvas.width  = hero.offsetWidth;
-        canvas.height = hero.offsetHeight;
-        buildDots();
-      }
-
-      function draw(ts) {
-        if (!isVisible) return;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const t = ts * 0.001;
-        for (const d of dots) {
-          const alpha = 0.2 + 0.8 * (0.5 + 0.5 * Math.sin(t * d.speed + d.phase));
-          ctx.beginPath();
-          ctx.arc(d.x, d.y, RADIUS, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${DOT_COLOR[0]},${DOT_COLOR[1]},${DOT_COLOR[2]},${alpha.toFixed(3)})`;
-          ctx.fill();
+      document.addEventListener('mousemove', (e) => {
+        lastX = e.clientX;
+        lastY = e.clientY;
+        if (!pending) {
+          pending = true;
+          requestAnimationFrame(update);
         }
-        animId = requestAnimationFrame(draw);
-      }
+      }, { passive: true });
 
-      /* Pause animation when hero is off-screen */
-      const hero = document.getElementById('hero');
-      const observer = new IntersectionObserver(function (entries) {
-        isVisible = entries[0].isIntersecting;
-        if (isVisible) {
-          animId = requestAnimationFrame(draw);
-        } else {
-          cancelAnimationFrame(animId);
-        }
-      }, { threshold: 0 });
-      observer.observe(hero);
-
-      resize();
-      animId = requestAnimationFrame(draw);
-      window.addEventListener('resize', resize, { passive: true });
+      window.addEventListener('blur', () => {
+        document.querySelectorAll(SELECTOR).forEach(el => { el.style.transform = ''; });
+      });
     })();
 
     /* ----------------------------------------------------------
